@@ -1,4 +1,6 @@
 import numpy as np
 import pandas as pd
-import preprocess
+import myUtil
 
+# preprocess
+X,Y = myUtil.preprocess1(*myUtil.read_data("train.csv"))
