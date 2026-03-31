@@ -11,19 +11,28 @@ class BasicKNN():
         self.K = K
         # preprocess
         self.X_train =  self.preprocess.trainPreprocess(self.X_train)
+
     def setK(self,K):
         self.K = K
+
     def judge(self,test_data):
         pass
-    def getTrainingAccuracy(self):
+
+    def getAccuracy(self,X_test,Y_test):
         success = 0
-        total = len(self.X_train)
+        total = len(X_test)
         for i in range(total):
-            if self.judge(self.X_train[i])==self.Y_train[i]:
+            if self.judge(X_test[i])==Y_test[i]:
                 success+=1
         return success/total
+    
+    def getTrainingAccuracy(self):
+        return self.getAccuracy(self.X_train,self.Y_train)
+    
     def getTestingAccuracy(self,test_file_name:str):
-        pass
+        X_test,Y_test = myUtil.read_data(test_file_name)
+        X_test = self.preprocess.testPreprocess(X_test)
+        return self.getAccuracy(X_test,Y_test)
 
 class BruteKNN(BasicKNN):
     def __init__(self,train_file_name:str,preprocess,distance_fnc,defaultK=10):
@@ -38,3 +47,4 @@ class BruteKNN(BasicKNN):
 if __name__ == '__main__':
     KNN1 = BruteKNN("train.csv",myPreprocess.STDPreprocess(),myUtil.euclidean_distance_sq,10)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
+    print(f"testing accuracy: {KNN1.getTestingAccuracy("test.csv")*100:.3f}%")

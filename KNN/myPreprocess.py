@@ -11,4 +11,4 @@ class STDPreprocess():
         X = (rX - self.mean)/self.std
         return X
     def testPreprocess(self,rX):
-        pass
+        return (rX - self.mean)/self.std
