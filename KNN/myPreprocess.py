@@ -13,7 +13,7 @@ class STD_Preprocess():
     def testPreprocess(self,rX):
         return (rX - self.mean)/self.std
       
-class STD_IQR_Preprocess(STDPreprocess):
+class STD_IQR_Preprocess(STD_Preprocess):
     def __init__(self,lower=25,upper=75):
         super().__init__()
         self.lower = lower
