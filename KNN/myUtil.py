@@ -8,4 +8,4 @@ def read_data(fileName):
     return rX,rY
 
 def euclidean_distance_sq(test,train):
-    return (test-train)**2
+    return np.sum((test-train)**2,axis=1)
