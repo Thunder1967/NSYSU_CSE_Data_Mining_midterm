@@ -7,7 +7,11 @@ def read_data(fileName):
     rY = rData['quality'].to_numpy() # quality
     return rX,rY
 
-def preprocess1(rX,rY):
-    # normalize
-    X = (rX - rX.mean(axis=0))/rX.std(axis=0)
-    return X,rY
+def euclidean_distance_sq(test,train):
+    return (test-train)**2
+
+def standardization(rX):
+    mean = rX.mean(axis=0)
+    std = rX.std(axis=0)
+    X = (rX - mean)/std 
+    return X,(mean,std)
