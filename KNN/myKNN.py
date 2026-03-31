@@ -10,7 +10,7 @@ class BasicKNN():
         self.distance_fnc = distance_fnc
         self.K = K
         # preprocess
-        self.X_train =  self.preprocess.trainPreprocess(self.X_train)
+        self.X_train,self.Y_train =  self.preprocess.trainPreprocess(self.X_train,self.Y_train)
 
     def setK(self,K):
         self.K = K

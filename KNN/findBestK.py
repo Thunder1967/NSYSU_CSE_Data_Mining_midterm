@@ -5,14 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 res = []
-KNN1 = myKNN.BruteKNN("train.csv",myPreprocess.STDPreprocess(),myUtil.euclidean_distance_sq,0)
+KNN1 = myKNN.BruteKNN("train.csv",myPreprocess.STDPreprocess2(),myUtil.euclidean_distance_sq,0)
 X_test,Y_test = myUtil.read_data("test.csv")
 X_test = KNN1.preprocess.testPreprocess(X_test)
 for i in range(2,100):
     KNN1.setK(i)
     res.append((i,KNN1.getTrainingAccuracy(),KNN1.getAccuracy(X_test,Y_test)))
 
-# made by gemini
+# following code made by gemini
 # 1. 提取資料
 k_values = [item[0] for item in res]
 train_accs = [item[1] for item in res]
@@ -57,4 +57,4 @@ plt.legend(loc='best')
 plt.grid(True, linestyle='--', alpha=0.5)
 
 # 6. 儲存圖片
-plt.savefig('KNN\\picture\\knn_comparison2.png', bbox_inches='tight')
+plt.savefig('KNN\\picture\\knn_comparison.png', bbox_inches='tight')
