@@ -1,4 +1,5 @@
 import numpy as np
+import myUtil
 
 class STD_Preprocess():
     def __init__(self):
@@ -14,26 +15,41 @@ class STD_Preprocess():
         return (rX - self.mean)/self.std
       
 class STD_IQR_Preprocess(STD_Preprocess):
-    def __init__(self,lower=25,upper=75):
+    def __init__(self,lower_bound=25,upper_bound=75):
         super().__init__()
-        self.lower = lower
-        self.upper = upper
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
     def trainPreprocess(self,rX,rY):
-        # calculate IQR
-        Q1 = np.percentile(rX,self.lower,axis=0)
-        Q3 = np.percentile(rX,self.upper,axis=0)
-        IQR = Q3 - Q1
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        
         # remove outliers
-        mask = np.all((rX>lower_bound) & (rX<upper_bound),axis=1)
+        mask = myUtil.calculateIQR(rX,self.lower_bound,self.upper_bound)
         print(f'remove {len(mask)-np.sum(mask)} outliers')
         return super().trainPreprocess(rX[mask],rY[mask])
 
+class Scale_Preprocess():
+    def __init__(self):
+        self.min = None
+        self.max = None
+    def trainPreprocess(self,rX,rY):
+        # Min-Max Scaling
+        self.min = np.min(rX, axis=0)
+        self.max = np.max(rX, axis=0)
+        X = (rX - self.min)/(self.max - self.min)
+        return X,rY
+    def testPreprocess(self,rX):
+        return (rX - self.min)/(self.max - self.min)
+
+class Scale_IQR_Preprocess(Scale_Preprocess):
+    def __init__(self,lower_bound=25,upper_bound=75):
+        super().__init__()
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
+    def trainPreprocess(self,rX,rY):
+        mask = myUtil.calculateIQR(rX,self.lower_bound,self.upper_bound)
+        print(f'remove {len(mask)-np.sum(mask)} outliers')
+        return super().trainPreprocess(rX[mask],rY[mask])
 
 if __name__ == "__main__":
     import myUtil
-    a = STDPreprocess2()
+    a = STD_IQR_Preprocess()
     X,Y=myUtil.read_data("train.csv")
     print(len(a.remove_outliers(X)))

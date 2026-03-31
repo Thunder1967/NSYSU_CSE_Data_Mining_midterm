@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 res = []
-KNN1 = myKNN.BruteKNN("train.csv",myPreprocess.STDPreprocess2(),myUtil.euclidean_distance_sq,0)
+KNN1 = myKNN.BruteKNN("train.csv",myPreprocess.Scale_IQR_Preprocess(),myUtil.euclidean_distance_sq,0)
 X_test,Y_test = myUtil.read_data("test.csv")
 X_test = KNN1.preprocess.testPreprocess(X_test)
 for i in range(2,100):
