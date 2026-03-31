@@ -9,9 +9,3 @@ def read_data(fileName):
 
 def euclidean_distance_sq(test,train):
     return (test-train)**2
-
-def standardization(rX):
-    mean = rX.mean(axis=0)
-    std = rX.std(axis=0)
-    X = (rX - mean)/std 
-    return X,(mean,std)
