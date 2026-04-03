@@ -14,16 +14,22 @@ class STD_Preprocess():
     def testPreprocess(self,rX):
         return (rX - self.mean)/self.std
       
-class STD_IQR_Preprocess(STD_Preprocess):
-    def __init__(self,lower_bound=25,upper_bound=75):
+class STD_IQRR_Preprocess(STD_Preprocess):
+    def __init__(self):
         super().__init__()
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
     def trainPreprocess(self,rX,rY):
         # remove outliers
-        mask = myUtil.calculateIQR(rX,self.lower_bound,self.upper_bound)
+        mask,lower,upper = myUtil.calculateIQR(rX)
         print(f'remove {len(mask)-np.sum(mask)} outliers')
         return super().trainPreprocess(rX[mask],rY[mask])
+    
+class STD_IQRC_Preprocess(STD_Preprocess):
+    def __init__(self):
+        super().__init__()
+    def trainPreprocess(self,rX,rY):
+        # Capping outliers
+        mask,lower,upper = myUtil.calculateIQR(rX)
+        return super().trainPreprocess(np.clip(rX,lower,upper),rY)
 
 class Scale_Preprocess():
     def __init__(self):
@@ -38,18 +44,26 @@ class Scale_Preprocess():
     def testPreprocess(self,rX):
         return (rX - self.min)/(self.max - self.min)
 
-class Scale_IQR_Preprocess(Scale_Preprocess):
-    def __init__(self,lower_bound=25,upper_bound=75):
+class Scale_IQRR_Preprocess(Scale_Preprocess):
+    def __init__(self):
         super().__init__()
-        self.lower_bound = lower_bound
-        self.upper_bound = upper_bound
     def trainPreprocess(self,rX,rY):
-        mask = myUtil.calculateIQR(rX,self.lower_bound,self.upper_bound)
+        # remove outliers
+        mask,lower,upper = myUtil.calculateIQR(rX)
         print(f'remove {len(mask)-np.sum(mask)} outliers')
         return super().trainPreprocess(rX[mask],rY[mask])
+    
+class Scale_IQRC_Preprocess(Scale_Preprocess):
+    def __init__(self):
+        super().__init__()
+    def trainPreprocess(self,rX,rY):
+        # Capping outliers
+        mask,lower,upper = myUtil.calculateIQR(rX)
+        return super().trainPreprocess(np.clip(rX,lower,upper),rY)
 
 if __name__ == "__main__":
+    # for testing
     import myUtil
-    a = STD_IQR_Preprocess()
+    a = STD_IQRR_Preprocess()
     X,Y=myUtil.read_data("train.csv")
     print(len(a.remove_outliers(X)))
