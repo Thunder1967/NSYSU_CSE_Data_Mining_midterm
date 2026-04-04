@@ -60,13 +60,17 @@ def testBestK(KNN1, test, pictureName):
     plt.savefig(f'KNN\\picture\\{pictureName}', bbox_inches='tight')
 
 if __name__=="__main__":
+    # preprocess = [
+    #     (myPreprocess.Scale_IQRC_Preprocess(),"Scale_IQRC"),
+    #     (myPreprocess.Scale_IQRR_Preprocess(),"Scale_IQRR"),
+    #     (myPreprocess.Scale_Preprocess(),"Scale"),
+    #     (myPreprocess.STD_IQRC_Preprocess(),"STD_IQRC"),
+    #     (myPreprocess.STD_IQRR_Preprocess(),"STD_IQRR"),
+    #     (myPreprocess.STD_Preprocess(),"STD"),
+    # ]
     preprocess = [
         (myPreprocess.Scale_IQRC_Preprocess(),"Scale_IQRC"),
-        (myPreprocess.Scale_IQRR_Preprocess(),"Scale_IQRR"),
-        (myPreprocess.Scale_Preprocess(),"Scale"),
         (myPreprocess.STD_IQRC_Preprocess(),"STD_IQRC"),
-        (myPreprocess.STD_IQRR_Preprocess(),"STD_IQRR"),
-        (myPreprocess.STD_Preprocess(),"STD"),
     ]
     distance_fnc = [
         (myUtil.euclidean_distance_sq,"euc"),

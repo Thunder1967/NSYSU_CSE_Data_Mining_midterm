@@ -28,8 +28,10 @@ class STD_IQRC_Preprocess(STD_Preprocess):
         super().__init__()
     def trainPreprocess(self,rX,rY):
         # Capping outliers
-        mask,lower,upper = myUtil.calculateIQR(rX)
-        return super().trainPreprocess(np.clip(rX,lower,upper),rY)
+        mask,self.lower,self.upper = myUtil.calculateIQR(rX)
+        return super().trainPreprocess(np.clip(rX,self.lower,self.upper),rY)
+    def testPreprocess(self,rX):
+        return super().testPreprocess(np.clip(rX,self.lower,self.upper))
 
 class Scale_Preprocess():
     def __init__(self):
@@ -58,8 +60,10 @@ class Scale_IQRC_Preprocess(Scale_Preprocess):
         super().__init__()
     def trainPreprocess(self,rX,rY):
         # Capping outliers
-        mask,lower,upper = myUtil.calculateIQR(rX)
-        return super().trainPreprocess(np.clip(rX,lower,upper),rY)
+        mask,self.lower,self.upper = myUtil.calculateIQR(rX)
+        return super().trainPreprocess(np.clip(rX,self.lower,self.upper),rY)
+    def testPreprocess(self,rX):
+        return super().testPreprocess(np.clip(rX,self.lower,self.upper))
 
 if __name__ == "__main__":
     # for testing
