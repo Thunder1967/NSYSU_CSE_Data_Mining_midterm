@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import time
 
 def read_data(fileName):
     rData = pd.read_csv(fileName) # row data
@@ -7,11 +8,19 @@ def read_data(fileName):
     rY = rData['quality'].to_numpy() # quality
     return rX,rY
 
-def euclidean_distance_sq(test,train):
-    return np.sum((test-train)**2,axis=1)
+def timeTest(start=[0]):
+    res = time.time()-start[0]
+    start[0] = time.time()
+    return res
 
-def manhattan_distance(test,train):
-    return np.sum(np.abs(test-train),axis=1)
+def euclidean_distance_sq(test,train,axis=1):
+    return np.sum((test-train)**2,axis=axis)
+
+def euclidean_distance(test,train,axis=1):
+    return np.sqrt(np.sum((test-train)**2,axis=axis))
+
+def manhattan_distance(test,train,axis=1):
+    return np.sum(np.abs(test-train),axis=axis)
 
 def calculateIQR(rX):
     # calculate IQR and return mask
