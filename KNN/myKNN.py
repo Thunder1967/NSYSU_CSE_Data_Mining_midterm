@@ -114,13 +114,13 @@ class BallTreeKNN(BasicKNN):
 if __name__ == '__main__':
     # for testing
     myUtil.timeTest()
-    KNN1 = BruteKNN("train.csv",myPreprocess.STD_Preprocess(),myUtil.euclidean_distance_sq,10)
+    KNN1 = BruteKNN("train.csv",myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
     print(f"testing accuracy: {KNN1.getTestingAccuracy(*myUtil.read_data("test.csv"))*100:.3f}%")
-    print(f'It costs {myUtil.timeTest()} second')
+    print(f'It costs {myUtil.timeTest()} second\n')
 
     myUtil.timeTest()
     KNN1 = BallTreeKNN("train.csv",myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
     print(f"testing accuracy: {KNN1.getTestingAccuracy(*myUtil.read_data("test.csv"))*100:.3f}%")
-    print(f'It costs {myUtil.timeTest()} second')
+    print(f'It costs {myUtil.timeTest()} second\n')
