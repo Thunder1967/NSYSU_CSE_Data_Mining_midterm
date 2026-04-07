@@ -1,44 +1,8 @@
+# following code made by gemini
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# def count(fileName):
-#     print(f'{fileName}:')
-#     rData = pd.read_csv(fileName) # row data
-#     rY = rData['quality'].to_numpy() # quality
-#     val,cnt = np.unique(rY, return_counts=True)
-    
-#     # following code made by gemini
-#     # 讀取資料
-#     rData = pd.read_csv(fileName)
-#     rY = rData['quality'].to_numpy()
-
-#     # 計算唯一值與次數
-#     val, cnt = np.unique(rY, return_counts=True)
-    
-#     # 建立圖表
-#     plt.figure(figsize=(10, 6))
-#     bars = plt.bar(val, cnt, color='steelblue', edgecolor='black', alpha=0.8)
-    
-#     # 設定圖表細節
-#     plt.xlabel('Quality Score', fontsize=12)
-#     plt.ylabel('Frequency (Count)', fontsize=12)
-#     plt.title(f'Distribution of Quality - {fileName}', fontsize=14)
-#     plt.xticks(val)  # 確保 X 軸只顯示出現過的品質分數
-#     plt.grid(axis='y', linestyle='--', alpha=0.7) # 加入水平虛線輔助閱讀
-
-#     # 在長條上方加上數值標籤
-#     for bar in bars:
-#         height = bar.get_height()
-#         plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-#                  f'{int(height)}', ha='center', va='bottom', fontsize=10)
-
-#     # 匯出圖檔
-#     plt.savefig(f'{fileName}_data_info.png', dpi=300, bbox_inches='tight')
-
-# count("WineQT.csv")
-# count("test.csv")
-# count("train.csv")
 
 def plot_combined_files(file_list,output_name="data_info.png"):
     all_counts = {}

@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     myUtil.timeTest()
     # BallTree can't use euclidean_distance_sq because BallTree use triangle inequality 
-    KNN1 = BallTreeKNN(X_train,Y_train,myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
+    KNN1 = BallTreeKNN(X_train,Y_train,myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10,5)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
     print(f"testing accuracy: {KNN1.getTestingAccuracy(*myUtil.read_data("test.csv"))*100:.3f}%")
     print(f'It costs {myUtil.timeTest()} second\n')

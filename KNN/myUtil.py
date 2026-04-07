@@ -30,3 +30,17 @@ def calculateIQR(rX):
     lower_bound = Q1 - 1.5 * IQR
     upper_bound = Q3 + 1.5 * IQR
     return np.all((rX>lower_bound) & (rX<upper_bound),axis=1),lower_bound,upper_bound
+
+def Kfold(K,size,seed=47):
+    indices = np.arange(size)
+    random_seed = np.random.default_rng(seed=seed)
+    random_seed.shuffle(indices)
+    fold_size = size//K
+    res = []
+    for i in range(K):
+        start = i*fold_size
+        end = (i + 1) * fold_size if i != K-1 else size
+        res.append(
+            [np.concatenate([indices[:start], indices[end:]]),indices[start:end]]
+        ) # [train,test]
+    return res
