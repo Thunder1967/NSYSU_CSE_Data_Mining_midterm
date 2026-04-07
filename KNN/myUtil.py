@@ -8,6 +8,12 @@ def read_data(fileName):
     rY = rData['quality'].to_numpy() # quality
     return rX,rY
 
+def read_data_remove_Dimension(fileName):
+    rData = pd.read_csv(fileName) # row data
+    rX = rData.drop(columns=['quality', 'Id','residual sugar','pH']).values # feature data
+    rY = rData['quality'].to_numpy() # quality
+    return rX,rY
+
 def timeTest(start=[0]):
     res = time.time()-start[0]
     start[0] = time.time()
