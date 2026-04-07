@@ -8,7 +8,7 @@ def testBestK(KNN1, test, pictureName):
     res = []
     X_test,Y_test = myUtil.read_data(test)
     X_test = KNN1.preprocess.testPreprocess(X_test)
-    for i in range(2,100):
+    for i in range(3,100):
         KNN1.setK(i)
         res.append((i,KNN1.getTrainingAccuracy(),KNN1.getAccuracy(X_test,Y_test)))
 
@@ -55,22 +55,20 @@ def testBestK(KNN1, test, pictureName):
     plt.ylabel('Accuracy', fontsize=12)
     plt.legend(loc='best')
     plt.grid(True, linestyle='--', alpha=0.5)
+    plt.xlim(0, 100)
+    plt.ylim(0.5, 0.8)
 
     # 6. 儲存圖片
     plt.savefig(f'KNN\\picture\\{pictureName}', bbox_inches='tight')
 
 if __name__=="__main__":
-    # preprocess = [
-    #     (myPreprocess.Scale_IQRC_Preprocess(),"Scale_IQRC"),
-    #     (myPreprocess.Scale_IQRR_Preprocess(),"Scale_IQRR"),
-    #     (myPreprocess.Scale_Preprocess(),"Scale"),
-    #     (myPreprocess.STD_IQRC_Preprocess(),"STD_IQRC"),
-    #     (myPreprocess.STD_IQRR_Preprocess(),"STD_IQRR"),
-    #     (myPreprocess.STD_Preprocess(),"STD"),
-    # ]
     preprocess = [
         (myPreprocess.Scale_IQRC_Preprocess(),"Scale_IQRC"),
+        (myPreprocess.Scale_IQRR_Preprocess(),"Scale_IQRR"),
+        (myPreprocess.Scale_Preprocess(),"Scale"),
         (myPreprocess.STD_IQRC_Preprocess(),"STD_IQRC"),
+        (myPreprocess.STD_IQRR_Preprocess(),"STD_IQRR"),
+        (myPreprocess.STD_Preprocess(),"STD"),
     ]
     distance_fnc = [
         (myUtil.euclidean_distance_sq,"euc"),

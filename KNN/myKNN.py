@@ -3,9 +3,10 @@ import myUtil
 import myPreprocess
 
 class BasicKNN():
-    def __init__(self,train_file_name:str,preprocess,distance_fnc,K):
+    def __init__(self,X_train,Y_train,preprocess,distance_fnc,K):
         # init
-        self.X_train,self.Y_train=myUtil.read_data(train_file_name)
+        self.X_train = X_train
+        self.Y_train = Y_train
         self.preprocess = preprocess
         self.distance_fnc = distance_fnc
         self.K = K
@@ -34,8 +35,8 @@ class BasicKNN():
         return self.getAccuracy(X_test,Y_test)
 
 class BruteKNN(BasicKNN):
-    def __init__(self,train_file_name:str,preprocess,distance_fnc,defaultK=10):
-        super().__init__(train_file_name,preprocess,distance_fnc,defaultK)
+    def __init__(self,X_train,Y_train,preprocess,distance_fnc,defaultK=10):
+        super().__init__(X_train,Y_train,preprocess,distance_fnc,defaultK)
     def judge(self,test_data):
         distance = self.distance_fnc(test_data,self.X_train) # calculate distance
         sorted_indices = np.argsort(distance) # sort
@@ -72,8 +73,8 @@ class BallTreeKNN(BasicKNN):
                 self.left = None
                 self.right = None
 
-    def __init__(self,train_file_name:str,preprocess,distance_fnc,defaultK=10,leaf_size=20):
-        super().__init__(train_file_name,preprocess,distance_fnc,defaultK)
+    def __init__(self,X_train,Y_train,preprocess,distance_fnc,defaultK=10,leaf_size=20):
+        super().__init__(X_train,Y_train,preprocess,distance_fnc,defaultK)
         self.root = BallTreeKNN.Node(self.X_train, np.arange(len(self.X_train)), self.distance_fnc, leaf_size)
     def judge(self,test_data):
         best_neighbor_indices = np.array([], dtype=int)
@@ -113,14 +114,16 @@ class BallTreeKNN(BasicKNN):
     
 if __name__ == '__main__':
     # for testing
+    X_train,Y_train = myUtil.read_data("train.csv")
     myUtil.timeTest()
-    KNN1 = BruteKNN("train.csv",myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
+    KNN1 = BruteKNN(X_train,Y_train,myPreprocess.STD_Preprocess(),myUtil.euclidean_distance_sq,10)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
     print(f"testing accuracy: {KNN1.getTestingAccuracy(*myUtil.read_data("test.csv"))*100:.3f}%")
     print(f'It costs {myUtil.timeTest()} second\n')
 
     myUtil.timeTest()
-    KNN1 = BallTreeKNN("train.csv",myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
+    # BallTree can't use euclidean_distance_sq because BallTree use triangle inequality 
+    KNN1 = BallTreeKNN(X_train,Y_train,myPreprocess.STD_Preprocess(),myUtil.euclidean_distance,10)
     print(f"training accuracy: {KNN1.getTrainingAccuracy()*100:.3f}%")
     print(f"testing accuracy: {KNN1.getTestingAccuracy(*myUtil.read_data("test.csv"))*100:.3f}%")
     print(f'It costs {myUtil.timeTest()} second\n')
