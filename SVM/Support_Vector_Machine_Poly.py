@@ -9,20 +9,20 @@ def SupportVectorMachine_Poly():
 
     train_data = pd.read_csv("pre_train.csv")
     X = train_data.drop(columns=['quality', 'Id'])
-    y = train_data[['quality']]
+    y = train_data['quality']
 
     # K-fold
     skf = StratifiedKFold(n_splits=10)
 
     pipe = Pipeline([
                 ('std_scalar', StandardScaler()),
-                ('svm', SVC(kernel='poly', decision_function_shape='ovr'))
+                ('svm', SVC(kernel='poly', decision_function_shape='ovo'))
     ])
 
     param_grid = {
-        'svm__C': [0.1, 0.5, 1],
+        'svm__C': [0.08, 0.09, 0.1, 0.11, 0.12, 0.25],
         'svm__degree': [3, 5],
-        'svm__gamma': [0.15, 0.2, 0.25, 0.3]
+        'svm__gamma': [0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21]
     }
     grid = GridSearchCV(pipe, param_grid, cv=skf, scoring='f1_weighted', return_train_score=True, n_jobs=-1, verbose=2)
     grid.fit(X, y.values.ravel())

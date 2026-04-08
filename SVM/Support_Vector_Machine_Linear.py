@@ -9,14 +9,14 @@ def SupportVectorMachine_Linear():
 
     train_data = pd.read_csv("pre_train.csv")
     X = train_data.drop(columns=['quality', 'Id'])
-    y = train_data[['quality']]
+    y = train_data['quality']
 
     # K-fold
     skf = StratifiedKFold(n_splits=10)
 
     pipe = Pipeline([
                 ('std_scalar', StandardScaler()),
-                ('svm', SVC(kernel='linear', decision_function_shape='ovr'))
+                ('svm', SVC(kernel='linear', decision_function_shape='ovo'))
     ])
 
     param_grid = {

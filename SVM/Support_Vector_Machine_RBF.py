@@ -9,7 +9,7 @@ def SupportVectorMachine_RBF():
 
     train_data = pd.read_csv("pre_train.csv")
     X = train_data.drop(columns=['quality', 'Id'])
-    y = train_data[['quality']]
+    y = train_data['quality']
 
     # K-fold
     skf = StratifiedKFold(n_splits=10)
@@ -20,8 +20,8 @@ def SupportVectorMachine_RBF():
     ])
 
     param_grid = {
-        'svm__C': [2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3],
-        'svm__gamma': [0.4, 0.35, 0.325, 0.3, 0.275, 0.25, 0.125, 0.2]
+        'svm__C': [1.3, 1.4, 1.45, 1.5, 1.55],
+        'svm__gamma': [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.16]
     }
     grid = GridSearchCV(pipe, param_grid, cv=skf, scoring='f1_weighted', return_train_score=True, n_jobs=-1, verbose=2)
     grid.fit(X, y.values.ravel())
