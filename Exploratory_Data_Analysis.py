@@ -50,6 +50,7 @@ components_df.to_csv("pca_feature.csv", encoding='utf-8-sig')
 '''
 降維資料
 df_pca = pd.DataFrame(df_transformed, columns=pca_columns)
+df_pca = pd.concat([df_pca, quality.reset_index(drop=True)], axis=1)
 df_pca = pd.concat([df_pca, Id.reset_index(drop=True)], axis=1)
 df_pca.to_csv("pca_train.csv", index=False, encoding='utf-8-sig')
 print(df_pca.head())
