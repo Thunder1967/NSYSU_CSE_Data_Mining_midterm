@@ -6,6 +6,7 @@ from sklearn.decomposition import PCA
 
 df = pd.read_csv("WineQT.csv")
 df_without_Id = df.drop(columns=['Id'])
+df_feature = df.drop(columns=['quality', 'Id'])
 quality = df[['quality']]
 Id = df[['Id']]
 
@@ -33,18 +34,16 @@ plt.tight_layout()
 
 #數據降維（主成分分析）
 scaler = StandardScaler()
-data_scaled = scaler.fit_transform(df_without_Id)
+data_scaled = scaler.fit_transform(df_feature)
 
 pca = PCA(n_components=5) #維度數量
 df_transformed = pca.fit_transform(data_scaled)
 print("Explained variance ratio:", pca.explained_variance_ratio_)
 print("Total explained variance ratio:", pca.explained_variance_ratio_.sum())
 
-df_transformed = pca.fit_transform(data_scaled)
-pca_columns = [f'PC{i+1}' for i in range(5)]
-
 #各變數對主成分貢獻度
-components_df = pd.DataFrame(pca.components_, columns=df_without_Id.columns, index=pca_columns)
+pca_columns = [f'PC{i+1}' for i in range(5)]
+components_df = pd.DataFrame(pca.components_, columns=df_feature.columns, index=pca_columns)
 components_df.to_csv("pca_feature.csv", encoding='utf-8-sig')
 
 '''
