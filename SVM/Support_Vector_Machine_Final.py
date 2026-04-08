@@ -33,6 +33,17 @@ def SupportVectorMachine():
         preds = pipe.predict(X_test)
         output = pd.DataFrame({'Id': test_data['Id'], 'quality': preds})
         output.to_csv(f"final_pred_{name}.csv", index=False)
+    
+    preds_linear = pd.read_csv("final_pred_linear.csv")
+    preds_poly = pd.read_csv("final_pred_poly.csv")
+    preds_rbf = pd.read_csv("final_pred_rbf.csv")
+    p1 = preds_linear['quality'].ravel()
+    p2 = preds_poly['quality'].ravel()
+    p3 = preds_rbf['quality'].ravel()
+    avg_preds = ((p1 + p2 + p3) / 3).round().astype(int)
+
+    preds_blend = pd.DataFrame({'Id': test_data['Id'], 'quality': avg_preds})
+    preds_blend.to_csv(f"final_pred_blend.csv", index=False)
 
 if __name__ == '__main__':
     SupportVectorMachine()
