@@ -17,14 +17,14 @@ def Preprocessing():
     print(len(train_clean))
 
     #資料重新輸出（記得取消註解）
-    #train_clean.to_csv('pre_train.csv', index=False)
+    train_clean.to_csv('pre_train.csv', index=False)
 
     
     #數據降維（主成分分析）
     train_data_without_Id = train_clean.drop(columns=['Id'])
     train_feature = train_clean.drop(columns=['quality', 'Id'])
-    quality = train_clean[['quality']]
-    Id = train_clean[['Id']]
+    quality = train_clean['quality']
+    Id = train_clean['Id']
     #數據降維（主成分分析）
     scaler = StandardScaler()
     data_scaled = scaler.fit_transform(train_feature)

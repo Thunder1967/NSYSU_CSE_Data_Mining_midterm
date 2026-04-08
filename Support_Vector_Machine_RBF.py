@@ -1,14 +1,13 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
 from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 
 def SupportVectorMachine_RBF():
 
-    train_data = pd.read_csv("pre_train_pca.csv")
+    train_data = pd.read_csv("pre_train.csv")
     X = train_data.drop(columns=['quality', 'Id'])
     y = train_data['quality']
 
@@ -21,8 +20,8 @@ def SupportVectorMachine_RBF():
     ])
 
     param_grid = {
-        'svm__C': [2.75, 2.8, 2.85, 2.9, 2.95, 3],
-        'svm__gamma': [0.35, 0.325, 0.3, 0.29, 0.28, 0.27, 0.26]
+        'svm__C': [1.3, 1.4, 1.45, 1.5, 1.55],
+        'svm__gamma': [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.16]
     }
     grid = GridSearchCV(pipe, param_grid, cv=skf, scoring='f1_weighted', return_train_score=True, n_jobs=-1, verbose=2)
     grid.fit(X, y.values.ravel())
@@ -40,7 +39,7 @@ def SupportVectorMachine_RBF():
     table = results[list(output_columns.keys())].rename(columns=output_columns)
     table = table.sort_values(by='Rank')
 
-    table.to_csv("results_rbf_pca.csv", index=False, encoding='utf-8-sig')
+    table.to_csv("results_rbf.csv", index=False, encoding='utf-8-sig')
 
 if __name__ == '__main__':
     SupportVectorMachine_RBF()
