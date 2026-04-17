@@ -1,3 +1,5 @@
+## 使用資料集
+https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
 ## 貢獻表
 1. [Thunder1967](https://github.com/Thunder1967) 完成 KNN + main
 2. [Rakuusagi](https://github.com/Rakuusagi) 完成 EDA + SVM
