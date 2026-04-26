@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 使用資料集
 https://www.kaggle.com/datasets/yasserh/wine-quality-dataset
 ## 貢獻表
