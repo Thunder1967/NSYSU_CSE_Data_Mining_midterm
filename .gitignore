@@ -1,5 +1,6 @@
-catboost_info/*
+catboost_info/
 /KNN/test.py
 /KNN/test2.py
 /KNN/__pycache__
 /KNN/note.txt
+/Random_Forest/test.py
