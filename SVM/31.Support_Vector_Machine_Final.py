@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score, f1_score
 
 train_data = pd.read_csv("pre_train.csv")
 test_data = pd.read_csv("test.csv")
@@ -13,9 +13,9 @@ test_feature = test_data.drop(columns=['quality', 'Id'])
 test_Id = test_data['Id']
 
 models = {
-    "linear": SVC(kernel='linear', C=5.1, decision_function_shape='ovr'),
-    "poly": SVC(kernel='poly', C=0.25, degree=3, gamma=0.2, decision_function_shape='ovr'),
-    "rbf": SVC(kernel='rbf', C=3.7, gamma=0.8, decision_function_shape='ovr')
+    "Linear": SVC(kernel='linear', C=5.1, decision_function_shape='ovr'),
+    "Poly": SVC(kernel='poly', C=0.25, degree=3, gamma=0.2, decision_function_shape='ovr'),
+    "RBF": SVC(kernel='rbf', C=1.45, gamma=0.15, decision_function_shape='ovr')
 }
     
 for name, svm_model in models.items():
@@ -27,8 +27,11 @@ for name, svm_model in models.items():
     pipe.fit(train_data_feature, train_data_quality)
 
     train_data_quality_pred = pipe.predict(train_data_feature)
-    train_f1 = f1_score(train_data_quality, train_data_quality_pred, average='weighted')
-    print(f"{name.lower()} Train F1-Score: {train_f1:.4f}")
+    print(f"▼//{name} Train Result")
+    print(f"Accuracy Score: {accuracy_score(train_data_quality, train_data_quality_pred)*100:.2f}%")
+    print(f"Precision Score: {precision_score(train_data_quality, train_data_quality_pred, zero_division=0, average='weighted')*100:.2f}%")
+    print(f"Recall Score: {recall_score(train_data_quality, train_data_quality_pred, average='weighted')*100:.2f}%")
+    print(f"F1 score: {f1_score(train_data_quality, train_data_quality_pred, average='weighted')*100:.2f}%")
 
     preds = pipe.predict(test_feature)
     output = pd.DataFrame({'Id': test_Id, 'quality': preds})
