@@ -1,3 +1,5 @@
-python 3.13.11 pandas 2.3.3 matplotlib 3.10.0 seaborn 0.13.2 scikit-learn 1.8.0
+python 3.13.11
+pandas 2.3.3
+scikit-learn 1.8.0
 
-Some picture didn't update because I forgot which one is new.
+Some picture may not update because I forgot which one is the new one.
